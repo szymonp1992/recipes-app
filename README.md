@@ -1,29 +1,24 @@
-# recipes-app
+# Checkout form
 
-This template should help get you started developing with Vue 3 in Vite.
+## Table of contents
 
-## Recommended IDE Setup
+- [General info](#general-info)
+- [Technologies](#technologies)
+- [Live preview](#live-preview)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## General info
 
-## Customize configuration
+This app is meant to store all my favourite cooking recipes. It also enables me to add some new ones to the mix. It is a simple CRUD app connected to Firebase where all the recipes are being stored.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Technologies
 
-## Project Setup
+Project is created with:
 
-```sh
-npm install
-```
+- Vue 3.2.45
+- Vue Router 4.1.6
+- Vuex 4.0.2
+- Bootstrap 5.3.0
 
-### Compile and Hot-Reload for Development
+## Live preview
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+Live preview will be soon available at https://szymonp1992.github.io/recipes-app/
