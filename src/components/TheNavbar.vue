@@ -15,7 +15,7 @@
                         </RouterLink>
                     </li>
                     <li class="nav-item fs-5">
-                        <RouterLink class="nav-link" to="/about"><span class="align-middle text-light">Add new
+                        <RouterLink class="nav-link" to="/add-new-recipe/"><span class="align-middle text-light">Add new
                                 recipe</span>
                         </RouterLink>
                     </li>
