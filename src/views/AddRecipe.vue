@@ -16,7 +16,11 @@
         <label for="fullRecipe">Full recipe</label>
       </div>
       <div class="mb-3">
-        <input type="file" class="form-control" id="recipePic" placeholder="Recipe photo" accept=".jpg, .png">
+        <input type="file" class="form-control" id="recipePic" placeholder="Recipe photo" accept=".jpg, .png"
+          @change="onFilePicked">
+      </div>
+      <div class="mb-3 image-preview" :style="imageUrl ? 'display: block' : 'display: none'">
+        <img :src="imageUrl">
       </div>
       <button type="submit" class="btn btn-dark" @click="submitRecipe">Add recipe to the database</button>
     </form>
@@ -35,9 +39,10 @@ export default {
     const recipeTitle = ref('');
     const recipeShortDescription = ref('');
     const fullRecipe = ref('');
+    const imageUrl = ref('');
+    const image = ref('')
 
     function submitRecipe(e) {
-
       e.preventDefault();
       store.dispatch('addNewRecipe', {
         id: store.getters.allRecipes.length + 1,
@@ -49,8 +54,34 @@ export default {
       recipeShortDescription.value = ''
       fullRecipe.value = ''
     }
+    function onFilePicked(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      if (filename.lastIndexOf('.') <= 0) {
+        return alert('Please add a valid file')
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        imageUrl.value = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0]);
+      console.log(files[0])
+      image.value = files[0]
+    }
 
-    return { recipeTitle, recipeShortDescription, fullRecipe, submitRecipe }
+    return { recipeTitle, recipeShortDescription, fullRecipe, imageUrl, submitRecipe, onFilePicked }
   }
 }
 </script>
+
+<style>
+.image-preview {
+  border: 2px solid black;
+  width: fit-content;
+}
+
+.image-preview img {
+  height: 200px;
+  width: auto;
+}
+</style>
