@@ -49,10 +49,12 @@ export default {
         title: recipeTitle.value,
         shortDescription: recipeShortDescription.value,
         fullRecipe: fullRecipe.value,
+        imageUrl: imageUrl.value,
       })
       recipeTitle.value = ''
       recipeShortDescription.value = ''
       fullRecipe.value = ''
+      imageUrl.value = ''
     }
     function onFilePicked(event) {
       const files = event.target.files;
@@ -65,7 +67,6 @@ export default {
         imageUrl.value = fileReader.result
       })
       fileReader.readAsDataURL(files[0]);
-      console.log(files[0])
       image.value = files[0]
     }
 

@@ -2,7 +2,8 @@
   <div>
     <div class="container">
       <div class="row gx-3 gy-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-4">
-        <RecipeCard :title="recipe.title" :short-description="recipe.shortDescription" v-for="recipe in allRecipes" />
+        <RecipeCard v-for="recipe in allRecipes" :title="recipe.title" :short-description="recipe.shortDescription"
+          :image-url="recipe.imageUrl" />
       </div>
     </div>
   </div>
