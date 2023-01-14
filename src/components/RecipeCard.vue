@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    props: ['title', 'short-description'],
+    props: ['title', 'short-description', 'image-link'],
 }
 
 </script>

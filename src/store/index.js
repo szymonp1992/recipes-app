@@ -13,7 +13,6 @@ const store = createStore({
           title: "Pumpkin soup with parsley foam",
           shortDescription:
             "Comforting, warming and nourishing pumpkin soup with heavy cream, chili flakes and parsley foam made with egg whites.",
-          imageLink: "https://i.imgur.com/XESvl4I.png",
         },
       ],
     };
