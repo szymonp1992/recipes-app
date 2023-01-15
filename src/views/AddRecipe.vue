@@ -36,29 +36,35 @@ export default {
   setup() {
     const store = useStore();
 
+    // Recipe properties
     const recipeTitle = ref('');
     const recipeShortDescription = ref('');
     const fullRecipe = ref('');
     const imageUrl = ref('');
     const image = ref('')
 
+    // Recipe submission function
     function submitRecipe(e) {
       e.preventDefault();
       store.dispatch('addNewRecipe', {
+        // Id created by incrementing number of recipes. This way every recipe gets new ID - ID of last recipe + 1
         id: store.getters.allRecipes.length + 1,
         title: recipeTitle.value,
         shortDescription: recipeShortDescription.value,
         fullRecipe: fullRecipe.value,
         imageUrl: imageUrl.value,
       })
+      // Clearing all the inputs after submitting new recipe
       recipeTitle.value = ''
       recipeShortDescription.value = ''
       fullRecipe.value = ''
       imageUrl.value = ''
     }
+    // Function triggered after picking an image to upload
     function onFilePicked(event) {
       const files = event.target.files;
       let filename = files[0].name;
+      // Guard to prevent adding a files with a dot in filename
       if (filename.lastIndexOf('.') <= 0) {
         return alert('Please add a valid file')
       }
