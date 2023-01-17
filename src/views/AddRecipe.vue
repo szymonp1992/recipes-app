@@ -131,7 +131,7 @@ export default {
             event.preventDefault();
             // Recipe submission after successful validation
             store.dispatch("addNewRecipe", {
-              id: store.getters.allRecipes.length + 1,
+              id: "REC" + store.getters.allRecipes.length + 1,
               title: recipeTitle.value,
               shortDescription: recipeShortDescription.value,
               fullRecipe: fullRecipe.value,
@@ -170,7 +170,7 @@ export default {
 }
 
 .image-preview img {
-  height: 200px;
+  height: 100px;
   width: auto;
 }
 </style>

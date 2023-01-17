@@ -24,7 +24,7 @@
 
 <script>
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 
 import RecipeCard from "../components/RecipeCard.vue";
 
@@ -37,6 +37,10 @@ export default {
 
     const allRecipes = computed(() => {
       return store.getters.allRecipes;
+    });
+
+    onMounted(() => {
+      store.dispatch("loadRecipes");
     });
     return { allRecipes };
   },
