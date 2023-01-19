@@ -1,11 +1,10 @@
 export default {
   // Action that performs mutation adding new recipe to the recipes array in state
   async addNewRecipe(_, payload) {
-    const recipeId = payload.id.toLocaleString();
     const response = await fetch(
-      `https://recipes-database-9f754-default-rtdb.firebaseio.com/recipes/${recipeId}.json`,
+      `https://recipes-database-9f754-default-rtdb.firebaseio.com/recipes.json`,
       {
-        method: "PUT",
+        method: "POST",
         body: JSON.stringify({
           id: payload.id,
           title: payload.title,
@@ -14,13 +13,12 @@ export default {
         }),
       }
     );
-    if (!response.ok) {
-      // error ...
-    }
-    context.commit("addNewRecipe", payload);
+    const responseData = await response;
+
+    console.log(response);
   },
 
-  async loadRecipes() {
+  async loadRecipes(context) {
     const response = await fetch(
       "https://recipes-database-9f754-default-rtdb.firebaseio.com/recipes.json"
     );
@@ -36,7 +34,7 @@ export default {
         recipeFullRecipe: responseData[key].fullRecipe,
       };
       recipes.push(recipe);
-      console.log(recipes);
     }
+    context.commit("loadRecipes", recipes);
   },
 };

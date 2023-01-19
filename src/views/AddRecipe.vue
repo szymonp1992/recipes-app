@@ -131,12 +131,13 @@ export default {
             event.preventDefault();
             // Recipe submission after successful validation
             store.dispatch("addNewRecipe", {
-              id: "REC" + store.getters.allRecipes.length + 1,
+              id: "REC" + store.getters.allRecipes.length,
               title: recipeTitle.value,
               shortDescription: recipeShortDescription.value,
               fullRecipe: fullRecipe.value,
-              imageUrl: imageUrl.value,
+              image: image.value,
             });
+            console.log(image.value);
             // Clearing all the inputs after form submission
             recipeTitle.value = "";
             recipeShortDescription.value = "";

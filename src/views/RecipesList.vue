@@ -11,10 +11,10 @@
       >
         <RecipeCard
           v-for="recipe in allRecipes"
-          :key="recipe.id"
-          :recipe-id="recipe.id"
-          :title="recipe.title"
-          :short-description="recipe.shortDescription"
+          :key="recipe.recipeId"
+          :recipe-id="recipe.recipeId"
+          :title="recipe.recipeTitle"
+          :short-description="recipe.recipeShortDesc"
           :image-url="recipe.imageUrl"
         />
       </div>
