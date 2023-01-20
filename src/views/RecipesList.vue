@@ -15,7 +15,7 @@
           :recipe-id="recipe.recipeId"
           :title="recipe.recipeTitle"
           :short-description="recipe.recipeShortDesc"
-          :image-url="recipe.imageUrl"
+          :image-url="recipe.recipeImageUrl"
         />
       </div>
     </div>

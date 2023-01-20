@@ -1,3 +1,6 @@
+import { storage } from "../firebase.js";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 export default {
   // Action that performs mutation adding new recipe to the recipes array in state
   async addNewRecipe(_, payload) {
@@ -13,9 +16,16 @@ export default {
         }),
       }
     );
-    const responseData = await response;
 
-    console.log(response);
+    if (!response.ok) {
+      throw new Error("Recipe not added to the database. Try again later.");
+    }
+
+    const image = payload.image;
+    const storageRef = ref(storage, `recipe photos/${payload.id}`);
+    const uploadImageResponse = await uploadBytes(storageRef, image);
+
+    console.log(uploadImageResponse);
   },
 
   async loadRecipes(context) {
@@ -33,6 +43,10 @@ export default {
         recipeShortDesc: responseData[key].shortDescription,
         recipeFullRecipe: responseData[key].fullRecipe,
       };
+      const imageUrl = await getDownloadURL(
+        ref(storage, `recipe photos/${recipe.recipeId}`)
+      );
+      recipe.recipeImageUrl = imageUrl;
       recipes.push(recipe);
     }
     context.commit("loadRecipes", recipes);
