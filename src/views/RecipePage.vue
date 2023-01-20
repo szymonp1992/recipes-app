@@ -1,24 +1,28 @@
 <template>
-  <router-link class="btn btn-dark mb-4" to="/recipes/"
-    >Back to all recipes</router-link
-  >
-  <div class="row gx-3 gy-3">
-    <div class="col-12 col-md-8">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title mb-3">{{ recipeTitle }}</h4>
-          <h5 class="card-subtitle mb-3">{{ recipeShortDescription }}</h5>
-          <p class="card-text">{{ recipeFull }}</p>
+  <div class="container">
+    <router-link class="btn btn-dark mb-4" to="/recipes/"
+      >Back to all recipes</router-link
+    >
+    <div class="row gx-3 gy-3">
+      <div class="col-12 col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-3">{{ recipeTitle }}</h4>
+            <h5 class="card-subtitle mb-3">{{ recipeShortDescription }}</h5>
+            <p class="card-text">{{ recipeFull }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-12 col-md-4">
-      <div class="card">
-        <img
-          :src="recipeImageUrl"
-          class="card-img-top recipe-photo"
-          :alt="recipeTitle"
-        />
+      <div class="col-12 col-md-4">
+        <div class="card">
+          <img
+            :src="recipeImageUrl"
+            class="card-img-top recipe-photo"
+            :alt="recipeTitle"
+            v-if="recipeImageUrl"
+          />
+          <h4 v-else class="p-3 text-muted">No image to display</h4>
+        </div>
       </div>
     </div>
   </div>
@@ -44,7 +48,6 @@ export default {
       await store.dispatch("loadRecipes");
       const recipeId = route.params.id;
       recipe.value = store.getters.getRecipeById(recipeId);
-      console.log(recipe.value);
       recipeTitle.value = recipe.value.recipeTitle;
       recipeShortDescription.value = recipe.value.recipeShortDesc;
       recipeFull.value = recipe.value.recipeFullRecipe;
@@ -55,3 +58,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

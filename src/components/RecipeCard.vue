@@ -1,7 +1,12 @@
 <template>
   <div class="col">
     <div class="card">
-      <img :src="imageUrl" class="card-img-top recipe-photo" :alt="title" />
+      <img
+        :src="imageUrl"
+        class="card-img-top recipe-photo"
+        :alt="title"
+        v-if="imageUrl"
+      />
       <div class="card-body">
         <h5 class="card-title">{{ title }}</h5>
         <p class="card-text">{{ shortDescription }}</p>

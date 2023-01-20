@@ -10,10 +10,12 @@
 <script>
 import { RouterView } from "vue-router";
 import TheNavbar from "./components/TheNavbar.vue";
+import TheSpinner from "./components/TheSpinner.vue";
 
 export default {
   components: {
     TheNavbar,
+    TheSpinner,
     RouterView,
   },
 };
