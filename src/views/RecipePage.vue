@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 
@@ -33,13 +33,22 @@ export default {
   setup() {
     const store = useStore();
     const route = useRoute();
-    const recipeId = route.params.id;
-    const recipe = ref(store.getters.getRecipeById(parseInt(recipeId)));
 
-    const recipeTitle = recipe.value.title;
-    const recipeShortDescription = recipe.value.shortDescription;
-    const recipeFull = recipe.value.fullRecipe;
-    const recipeImageUrl = recipe.value.imageUrl;
+    const recipeTitle = ref("");
+    const recipeShortDescription = ref("");
+    const recipeFull = ref("");
+    const recipeImageUrl = ref("");
+
+    const recipe = ref({});
+    onMounted(async () => {
+      await store.dispatch("loadRecipes");
+      const recipeId = route.params.id;
+      recipe.value = store.getters.getRecipeById(recipeId);
+      recipeTitle.value = recipe.value.recipeTitle;
+      recipeShortDescription.value = recipe.value.recipeShortDesc;
+      recipeFull.value = recipe.value.recipeFullRecipe;
+      recipeImageUrl.value = recipe.value.recipeImageUrl;
+    });
 
     return { recipeTitle, recipeShortDescription, recipeFull, recipeImageUrl };
   },
