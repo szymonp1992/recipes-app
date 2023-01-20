@@ -131,7 +131,7 @@ export default {
             event.preventDefault();
             // Recipe submission after successful validation
             store.dispatch("addNewRecipe", {
-              id: "REC" + store.getters.allRecipes.length,
+              id: "id" + new Date().getTime().toString(),
               title: recipeTitle.value,
               shortDescription: recipeShortDescription.value,
               fullRecipe: fullRecipe.value,

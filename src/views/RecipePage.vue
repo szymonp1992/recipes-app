@@ -44,6 +44,7 @@ export default {
       await store.dispatch("loadRecipes");
       const recipeId = route.params.id;
       recipe.value = store.getters.getRecipeById(recipeId);
+      console.log(recipe.value);
       recipeTitle.value = recipe.value.recipeTitle;
       recipeShortDescription.value = recipe.value.recipeShortDesc;
       recipeFull.value = recipe.value.recipeFullRecipe;
