@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar sticky-top navbar-expand-md bg-dark">
+  <nav class="navbar navbar-dark sticky-top navbar-expand-md bg-dark">
     <div class="container-fluid">
       <RouterLink class="navbar-brand fs-1 m-0" to="/"
         ><span class="align-middle text-light">My best recipes</span>
@@ -38,5 +38,9 @@
 
 <script>
 import { RouterLink } from "vue-router";
+
+components: {
+  RouterLink;
+}
 </script>
 
