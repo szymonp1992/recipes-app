@@ -47,7 +47,7 @@ export default {
       await store.dispatch("loadRecipes");
       setTimeout(() => {
         isLoading.value = false;
-      }, 500);
+      }, 100);
     });
     return { allRecipes, isLoading };
   },

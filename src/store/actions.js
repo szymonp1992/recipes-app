@@ -47,7 +47,7 @@ export default {
         ref(storage, `recipe photos/${recipe.recipeId}`)
       );
       recipe.recipeImageUrl = imageUrl;
-      recipes.push(recipe);
+      recipes.unshift(recipe);
     }
     context.commit("loadRecipes", recipes);
   },
