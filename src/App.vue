@@ -3,11 +3,7 @@
     <TheNavbar />
   </div>
   <div class="container mt-5">
-    <router-view v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
+    <RouterView />
   </div>
 </template>
 
@@ -22,7 +18,6 @@ export default {
     TheSpinner,
     RouterView,
   },
-  
 };
 </script>
 

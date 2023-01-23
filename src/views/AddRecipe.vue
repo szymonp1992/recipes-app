@@ -83,24 +83,6 @@ export default {
     const imageUrl = ref("");
     const image = ref("");
 
-    // Recipe submission function
-    // function submitRecipe(e) {
-    //   e.preventDefault();
-    //   store.dispatch("addNewRecipe", {
-    //     // Id created by incrementing number of recipes. This way every recipe gets new ID - ID of last recipe + 1
-    //     id: store.getters.allRecipes.length + 1,
-    //     title: recipeTitle.value,
-    //     shortDescription: recipeShortDescription.value,
-    //     fullRecipe: fullRecipe.value,
-    //     imageUrl: imageUrl.value,
-    //   });
-    //   // Clearing all the inputs after submitting new recipe
-    //   recipeTitle.value = "";
-    //   recipeShortDescription.value = "";
-    //   fullRecipe.value = "";
-    //   imageUrl.value = "";
-    // }
-
     // Function triggered after picking an image to upload
     function onFilePicked(event) {
       const files = event.target.files;
@@ -129,6 +111,8 @@ export default {
             recipeForm.classList.add("was-validated");
           } else {
             event.preventDefault();
+            fullRecipe.value =
+              "<p>" + fullRecipe.value.replace(/\n/g, "</p>\n<p>") + "</p>";
             // Recipe submission after successful validation
             store.dispatch("addNewRecipe", {
               id: "id" + new Date().getTime().toString(),
@@ -137,7 +121,6 @@ export default {
               fullRecipe: fullRecipe.value,
               image: image.value,
             });
-            console.log(image.value);
             // Clearing all the inputs after form submission
             recipeTitle.value = "";
             recipeShortDescription.value = "";

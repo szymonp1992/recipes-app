@@ -3,7 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default {
   // Action that performs mutation adding new recipe to the recipes array in state
-  async addNewRecipe(_, payload) {
+  async addNewRecipe(context, payload) {
     const response = await fetch(
       `https://recipes-database-9f754-default-rtdb.firebaseio.com/recipes.json`,
       {
@@ -21,14 +21,21 @@ export default {
       throw new Error("Recipe not added to the database. Try again later.");
     }
 
+    context.commit("addNewRecipe", {
+      id: payload.id,
+      title: payload.title,
+      shortDescription: payload.shortDescription,
+      fullRecipe: payload.fullRecipe,
+      image: payload.image,
+    });
+
     const image = payload.image;
     const storageRef = ref(storage, `recipe photos/${payload.id}`);
-    const uploadImageResponse = await uploadBytes(storageRef, image);
-
-    console.log(uploadImageResponse);
+    await uploadBytes(storageRef, image);
   },
 
   async loadRecipes(context) {
+    // Fetching all recipes from Firebase Realtime Database
     const response = await fetch(
       "https://recipes-database-9f754-default-rtdb.firebaseio.com/recipes.json"
     );
@@ -43,6 +50,7 @@ export default {
         recipeShortDesc: responseData[key].shortDescription,
         recipeFullRecipe: responseData[key].fullRecipe,
       };
+      // Loading images from Firebase Storage
       const imageUrl = await getDownloadURL(
         ref(storage, `recipe photos/${recipe.recipeId}`)
       );

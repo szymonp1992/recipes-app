@@ -42,13 +42,16 @@ export default {
 
     const isLoading = ref(false);
 
-    onMounted(async () => {
+    async function showSpinner() {
       isLoading.value = true;
       await store.dispatch("loadRecipes");
-      setTimeout(() => {
-        isLoading.value = false;
-      }, 100);
+      isLoading.value = false;
+    }
+
+    onMounted(() => {
+      showSpinner();
     });
+
     return { allRecipes, isLoading };
   },
 };

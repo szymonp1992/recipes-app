@@ -10,7 +10,7 @@
 
 <style>
 .spinner-border {
-  position: absolute;
+  position: fixed;
   top: calc(50% - 3.75rem);
   left: calc(50% - 3.75rem);
   opacity: 1;
