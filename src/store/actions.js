@@ -1,4 +1,6 @@
 import { storage } from "../firebase.js";
+import { getDatabase, set } from "firebase/database";
+import { ref as databaseRef } from "firebase/database";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default {
@@ -45,6 +47,7 @@ export default {
 
     for (const key in responseData) {
       const recipe = {
+        recipeKey: key,
         recipeId: responseData[key].id,
         recipeTitle: responseData[key].title,
         recipeShortDesc: responseData[key].shortDescription,
@@ -58,5 +61,12 @@ export default {
       recipes.unshift(recipe);
     }
     context.commit("loadRecipes", recipes);
+  },
+
+  async removeRecipe(context, payload) {
+    const db = getDatabase();
+    await set(databaseRef(db, "recipes/" + payload.recipeKey), null);
+    context.commit("removeRecipe", payload);
+    console.log("Success!");
   },
 };

@@ -7,4 +7,9 @@ export default {
   loadRecipes(state, payload) {
     state.recipes = payload;
   },
+  removeRecipe(state, payload) {
+    state.recipes = state.recipes.filter(
+      (recipe) => recipe.recipeId !== payload.recipeId
+    );
+  },
 };
