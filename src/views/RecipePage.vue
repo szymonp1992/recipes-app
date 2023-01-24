@@ -1,9 +1,15 @@
 <template>
   <div>
     <div class="container">
-      <router-link class="btn btn-dark mb-4" to="/recipes/"
-        >Back to all recipes</router-link
-      >
+      <div class="row justify-content-between m-0">
+        <router-link class="btn btn-dark mb-4 col-2" to="/recipes/"
+          >Back to all recipes</router-link
+        >
+        <button class="btn btn-danger mb-4 col-2" @click="deleteRecipe">
+          Delete recipe
+        </button>
+      </div>
+
       <div class="row gx-3 gy-3">
         <div class="col-12 col-md-8">
           <div class="card">
@@ -34,7 +40,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import TheBackdrop from "../components/TheBackdrop.vue";
 
@@ -45,11 +51,13 @@ export default {
   setup() {
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
 
     const recipeTitle = ref("");
     const recipeShortDescription = ref("");
     const recipeFull = ref("");
     const recipeImageUrl = ref("");
+    const recipeKey = ref("");
 
     const isLoading = ref(false);
 
@@ -63,8 +71,19 @@ export default {
       recipeShortDescription.value = recipe.value.recipeShortDesc;
       recipeFull.value = recipe.value.recipeFullRecipe;
       recipeImageUrl.value = recipe.value.recipeImageUrl;
+      recipeKey.value = recipe.value.recipeKey;
       isLoading.value = false;
     });
+
+    function deleteRecipe() {
+      if (confirm("Are you sure?")) {
+        store.dispatch("removeRecipe", {
+          recipeKey: recipeKey.value,
+          recipeId: route.params.id,
+        });
+        router.push({ path: "/" });
+      }
+    }
 
     return {
       recipeTitle,
@@ -72,6 +91,7 @@ export default {
       recipeFull,
       recipeImageUrl,
       isLoading,
+      deleteRecipe,
     };
   },
 };
