@@ -1,69 +1,74 @@
 <template>
-  <div class="container">
-    <form class="needs-validation" novalidate>
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="recipeTitle"
-          placeholder="Recipe title"
-          v-model="recipeTitle"
-          required
-        />
-        <label for="recipeTitle">Recipe title</label>
-        <div class="invalid-feedback">Please enter recipe title.</div>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="recipeShortDescription"
-          placeholder="Short description"
-          v-model="recipeShortDescription"
-          required
-        />
-        <label for="recipeShortDescription">Short description</label>
-        <div class="invalid-feedback">
-          Please enter short description of a recipe.
+  <div>
+    <div class="container">
+      <form class="needs-validation" novalidate>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="recipeTitle"
+            placeholder="Recipe title"
+            v-model="recipeTitle"
+            required
+          />
+          <label for="recipeTitle">Recipe title</label>
+          <div class="invalid-feedback">Please enter recipe title.</div>
         </div>
-      </div>
-      <div class="form-floating mb-3">
-        <textarea
-          class="form-control"
-          id="fullRecipe"
-          placeholder="Full recipe"
-          style="height: 400px"
-          v-model="fullRecipe"
-          required
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="recipeShortDescription"
+            placeholder="Short description"
+            v-model="recipeShortDescription"
+            required
+          />
+          <label for="recipeShortDescription">Short description</label>
+          <div class="invalid-feedback">
+            Please enter short description of a recipe.
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <textarea
+            class="form-control"
+            id="fullRecipe"
+            placeholder="Full recipe"
+            style="height: 400px"
+            v-model="fullRecipe"
+            required
+          >
+          </textarea>
+          <label for="fullRecipe">Full recipe</label>
+          <div class="invalid-feedback">
+            Please enter full recipe breakdown.
+          </div>
+        </div>
+        <div class="mb-3">
+          <input
+            type="file"
+            class="form-control"
+            id="recipePic"
+            placeholder="Recipe photo"
+            accept=".jpg, .png"
+            @change="onFilePicked"
+            required
+          />
+          <div class="invalid-feedback">
+            Please enter a picture of finished dish.
+          </div>
+        </div>
+        <div
+          class="mb-3 image-preview"
+          :style="imageUrl ? 'display: block' : 'display: none'"
         >
-        </textarea>
-        <label for="fullRecipe">Full recipe</label>
-        <div class="invalid-feedback">Please enter full recipe breakdown.</div>
-      </div>
-      <div class="mb-3">
-        <input
-          type="file"
-          class="form-control"
-          id="recipePic"
-          placeholder="Recipe photo"
-          accept=".jpg, .png"
-          @change="onFilePicked"
-          required
-        />
-        <div class="invalid-feedback">
-          Please enter a picture of finished dish.
+          <img :src="imageUrl" />
         </div>
-      </div>
-      <div
-        class="mb-3 image-preview"
-        :style="imageUrl ? 'display: block' : 'display: none'"
-      >
-        <img :src="imageUrl" />
-      </div>
-      <button type="submit" class="btn btn-dark">
-        Add recipe to the database
-      </button>
-    </form>
+        <button type="submit" class="btn btn-dark">
+          Add recipe to the database
+        </button>
+      </form>
+    </div>
+    <TheBackdrop :style="{ display: isLoading ? 'block' : 'none' }" />
   </div>
 </template>
 
@@ -72,7 +77,12 @@ import { ref, onMounted } from "vue";
 
 import { useStore } from "vuex";
 
+import TheBackdrop from "../components/TheBackdrop.vue";
+
 export default {
+  components: {
+    TheBackdrop,
+  },
   setup() {
     const store = useStore();
 
@@ -82,6 +92,8 @@ export default {
     const fullRecipe = ref("");
     const imageUrl = ref("");
     const image = ref("");
+
+    const isLoading = ref(false);
 
     // Function triggered after picking an image to upload
     function onFilePicked(event) {
@@ -99,6 +111,18 @@ export default {
       image.value = files[0];
     }
 
+    async function addRecipe() {
+      isLoading.value = true;
+      await store.dispatch("addNewRecipe", {
+        id: "id" + new Date().getTime().toString(),
+        title: recipeTitle.value,
+        shortDescription: recipeShortDescription.value,
+        fullRecipe: fullRecipe.value,
+        image: image.value,
+      });
+      isLoading.value = false;
+    }
+
     onMounted(() => {
       const recipeForm = document.querySelector(".needs-validation");
       recipeForm.addEventListener(
@@ -114,13 +138,7 @@ export default {
             fullRecipe.value =
               "<p>" + fullRecipe.value.replace(/\n/g, "</p>\n<p>") + "</p>";
             // Recipe submission after successful validation
-            store.dispatch("addNewRecipe", {
-              id: "id" + new Date().getTime().toString(),
-              title: recipeTitle.value,
-              shortDescription: recipeShortDescription.value,
-              fullRecipe: fullRecipe.value,
-              image: image.value,
-            });
+            addRecipe();
             // Clearing all the inputs after form submission
             recipeTitle.value = "";
             recipeShortDescription.value = "";
@@ -141,6 +159,7 @@ export default {
       recipeShortDescription,
       fullRecipe,
       imageUrl,
+      isLoading,
       onFilePicked,
     };
   },

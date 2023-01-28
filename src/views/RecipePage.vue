@@ -75,9 +75,9 @@ export default {
       isLoading.value = false;
     });
 
-    function deleteRecipe() {
+    async function deleteRecipe() {
       if (confirm("Are you sure?")) {
-        store.dispatch("removeRecipe", {
+        await store.dispatch("removeRecipe", {
           recipeKey: recipeKey.value,
           recipeId: route.params.id,
         });
